@@ -121,7 +121,8 @@
       left: 0 !important;
       right: 0 !important;
       width: 100% !important;
-      padding-top: max(54px, env(safe-area-inset-top) + 10px) !important;
+      padding: env(safe-area-inset-top) 20px 14px !important;
+      padding-top: max(14px, env(safe-area-inset-top)) !important;
       z-index: 999 !important;
     }
     /* Push content down so it doesn't hide under fixed nav */
@@ -208,6 +209,18 @@
     display: none;
     flex-direction: column;
     gap: 2px;
+  }
+  /* Center dropdown on mobile */
+  @media (max-width: 767px) {
+    .brand-dropdown {
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      right: auto !important;
+      transform: translate(-50%, -50%) !important;
+      min-width: 280px !important;
+      border-radius: 20px !important;
+    }
   }
   .brand-dropdown.open {
     display: flex;
