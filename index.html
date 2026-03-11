@@ -84,10 +84,25 @@
     border-radius: 50px;
   }
 
-  /* Hide toggle on mobile, show brand button in nav instead */
+  /* Hide toggle and title on mobile */
   @media (max-width: 767px) {
     .theme-switcher {
       display: none;
+    }
+    .prototype-title {
+      display: none;
+    }
+    /* Subtle indicator that logo is tappable */
+    .nav-logo::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background: rgba(255,255,255,0.4);
+      border-radius: 50%;
     }
   }
 
@@ -107,10 +122,7 @@
   }
   @media (max-width: 767px) {
     .nav-brand-btn {
-      display: flex;
-    }
-    .nav-find-cruises {
-      display: none;
+      display: none; /* hidden — logo is the trigger instead */
     }
   }
   .nav-brand-btn svg {
@@ -1133,8 +1145,8 @@
 </head>
 <body data-theme="ncl">
 
-<!-- Version badge -->
-<div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;text-align:center;">Tri-Brand Mobile UX</div>
+<!-- Version badge — desktop only -->
+<div class="prototype-title" style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;text-align:center;">Tri-Brand Mobile UX</div>
 
 <!-- Theme switcher -->
 <div class="theme-switcher">
@@ -1156,7 +1168,7 @@
       <div class="nav-menu">
         <span></span><span></span><span></span>
       </div>
-      <div class="nav-logo" id="nav-logo">
+      <div class="nav-logo" id="nav-logo" onclick="handleLogoTap(event)" style="cursor:pointer;">
         <span class="nav-logo-ncl"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 37.2 32"><g id="NCL-Logo-Shield-Black"><g id="Shield"><g><path d="M37.16,26.47s0-26.47,0-26.47H0v31.33s3.31-3.06,7.86-3.36c6.51-.43,9.2,2.75,15.38,3.8,7.55,1.29,12.48-3.35,13.64-4.7.28-.35.24-.44.27-.52v-.1Z"/><path style="fill:#e9e5dd" d="M3.52,25.64c1.25-.65,2.35-.99,4.98-1.14,6.34-.37,8.7,1.98,14.7,2.91,4.71.73,7.37-.32,9.38-1.61,1.06-.68.78-.5,1.34-.97.49-.41.61-.7.54-.99-.02-.09-.11-.09-.29.03-.14.09-.41.27-.41.27-4.72,3.29-10.9,1.36-16.3-.34-5.02-1.58-11.2-.89-13.99,1.1,0,0-.33.21-.57.57-.08.12-.26.6-.03.5.26-.12.46-.26.67-.36"/></g><polygon style="fill:#eae6de" points="10.86 17.45 5.52 10.44 5.52 17.45 3.12 17.45 3.12 6.42 5.36 6.42 10.53 13.21 10.53 6.42 12.93 6.42 12.93 17.45 10.86 17.45"/><path style="fill:#eae6de" d="M20.14,17.64c-3.25,0-5.66-2.51-5.66-5.68v-.03c0-3.14,2.36-5.71,5.75-5.71,2.08,0,3.33.69,4.35,1.7l-1.55,1.78c-.85-.77-1.72-1.25-2.82-1.25-1.86,0-3.2,1.54-3.2,3.44v.03c0,1.89,1.31,3.47,3.2,3.47,1.26,0,2.03-.5,2.9-1.29l1.55,1.56c-1.14,1.21-2.4,1.97-4.52,1.97"/><polygon style="fill:#eae6de" points="26.27 17.45 26.27 6.42 28.7 6.42 28.7 15.24 34.2 15.24 34.2 17.45 26.27 17.45"/></g></g></svg></span>
         <span class="nav-logo-text" style="display:none"></span>
       </div>
@@ -1630,6 +1642,13 @@ scrollContent.addEventListener('scroll', function() {
 </script>
 
 <script>
+  // Logo tap — opens brand dropdown on mobile only
+  function handleLogoTap(e) {
+    if (window.innerWidth < 768) {
+      toggleBrandDropdown(e);
+    }
+  }
+
   // Brand dropdown (mobile)
   function toggleBrandDropdown(e) {
     e.stopPropagation();
