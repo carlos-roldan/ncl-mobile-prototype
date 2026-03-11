@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Tri-Brand Mobile UX</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,6 +82,31 @@
     background: rgba(255,255,255,0.08);
     padding: 6px;
     border-radius: 50px;
+  }
+
+  /* Full bleed on real iPhone — extend behind Dynamic Island */
+  @media (max-width: 767px) {
+    body {
+      padding: 0 !important;
+      background: #000;
+    }
+    .phone-shell {
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .screen {
+      border-radius: 0 !important;
+      inset: 0 !important;
+    }
+    .top-nav {
+      padding-top: max(62px, env(safe-area-inset-top) + 14px) !important;
+    }
+    .dynamic-island {
+      display: none !important;
+    }
   }
 
   /* Hide toggle and title on mobile */
