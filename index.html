@@ -1695,13 +1695,28 @@ document.getElementById('scroll-content').addEventListener('click', function(e) 
 });
 
 // Sticky nav — transitions to solid white on scroll
+// On mobile: listen to window scroll (native page scroll)
+// On desktop: listen to scroll-content div scroll
 const scrollContent = document.getElementById('scroll-content');
 const topNav = document.getElementById('top-nav');
-scrollContent.addEventListener('scroll', function() {
-  if (scrollContent.scrollTop > 80) {
+
+function handleNavScroll(scrollTop) {
+  if (scrollTop > 80) {
     topNav.classList.add('scrolled');
   } else {
     topNav.classList.remove('scrolled');
+  }
+}
+
+// Desktop — div scroll
+scrollContent.addEventListener('scroll', function() {
+  handleNavScroll(scrollContent.scrollTop);
+});
+
+// Mobile — window scroll
+window.addEventListener('scroll', function() {
+  if (window.innerWidth < 768) {
+    handleNavScroll(window.scrollY);
   }
 });
 </script>
