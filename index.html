@@ -74,7 +74,7 @@
     }
   }
 
-  /* Theme switcher */
+  /* Theme switcher — desktop only */
   .theme-switcher {
     display: flex;
     gap: 8px;
@@ -82,6 +82,117 @@
     background: rgba(255,255,255,0.08);
     padding: 6px;
     border-radius: 50px;
+  }
+
+  /* Hide toggle on mobile, show brand button in nav instead */
+  @media (max-width: 767px) {
+    .theme-switcher {
+      display: none;
+    }
+  }
+
+  /* Brand switcher button inside nav (mobile only) */
+  .nav-brand-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.1);
+    cursor: pointer;
+    position: relative;
+    z-index: 1001;
+  }
+  @media (max-width: 767px) {
+    .nav-brand-btn {
+      display: flex;
+    }
+    .nav-find-cruises {
+      display: none;
+    }
+  }
+  .nav-brand-btn svg {
+    width: 16px;
+    height: 16px;
+    fill: white;
+  }
+
+  /* Brand dropdown menu */
+  .brand-dropdown {
+    position: absolute;
+    top: 56px;
+    right: 12px;
+    background: rgba(15,15,15,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 8px;
+    z-index: 2000;
+    min-width: 180px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    display: none;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .brand-dropdown.open {
+    display: flex;
+  }
+  .brand-dropdown-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding: 6px 12px 4px;
+  }
+  .brand-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    text-align: left;
+  }
+  .brand-dropdown-item:hover,
+  .brand-dropdown-item.active {
+    background: rgba(255,255,255,0.08);
+  }
+  .brand-dropdown-item .brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .brand-dropdown-item .brand-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.04em;
+  }
+  .brand-dropdown-item .brand-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 1px;
+  }
+  .brand-dropdown-item .brand-check {
+    margin-left: auto;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    display: none;
+  }
+  .brand-dropdown-item.active .brand-check {
+    display: block;
   }
   .theme-btn {
     padding: 8px 20px;
@@ -115,6 +226,13 @@
       inset 0 0 0 1px rgba(255,255,255,0.05);
     position: relative;
     overflow: hidden;
+  }
+
+  /* Dynamic Island — hidden on real mobile, shown in desktop phone frame only */
+  @media (max-width: 767px) {
+    .dynamic-island {
+      display: none;
+    }
   }
 
   /* Dynamic Island */
@@ -1043,6 +1161,40 @@
         <span class="nav-logo-text" style="display:none"></span>
       </div>
       <button class="nav-find-cruises" onclick="window.open('https://www.ncl.com/vacations','_blank')" id="nav-find-cruises">Find Cruises</button>
+
+      <!-- Mobile brand switcher button -->
+      <button class="nav-brand-btn" id="nav-brand-btn" onclick="toggleBrandDropdown(event)" aria-label="Switch brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"/><circle cx="19" cy="18" r="3"/></svg>
+      </button>
+    </div>
+
+    <!-- Brand dropdown -->
+    <div class="brand-dropdown" id="brand-dropdown">
+      <div class="brand-dropdown-label">Switch Brand</div>
+      <button class="brand-dropdown-item active" id="dd-ncl" onclick="selectBrand('ncl')">
+        <span class="brand-dot" style="background:#00484F"></span>
+        <span>
+          <div class="brand-name">Norwegian</div>
+          <div class="brand-sub">Norwegian Cruise Line</div>
+        </span>
+        <span class="brand-check">✓</span>
+      </button>
+      <button class="brand-dropdown-item" id="dd-oceania" onclick="selectBrand('oceania')">
+        <span class="brand-dot" style="background:#3D2314"></span>
+        <span>
+          <div class="brand-name">Oceania</div>
+          <div class="brand-sub">Oceania Cruises</div>
+        </span>
+        <span class="brand-check">✓</span>
+      </button>
+      <button class="brand-dropdown-item" id="dd-regent" onclick="selectBrand('regent')">
+        <span class="brand-dot" style="background:#C9A84C"></span>
+        <span>
+          <div class="brand-name">Regent</div>
+          <div class="brand-sub">Regent Seven Seas</div>
+        </span>
+        <span class="brand-check">✓</span>
+      </button>
     </div>
 
       <!-- HERO -->
@@ -1478,6 +1630,37 @@ scrollContent.addEventListener('scroll', function() {
 </script>
 
 <script>
+  // Brand dropdown (mobile)
+  function toggleBrandDropdown(e) {
+    e.stopPropagation();
+    const dd = document.getElementById('brand-dropdown');
+    dd.classList.toggle('open');
+  }
+
+  function selectBrand(theme) {
+    // Close dropdown
+    document.getElementById('brand-dropdown').classList.remove('open');
+    // Update active state in dropdown
+    ['ncl','oceania','regent'].forEach(t => {
+      const el = document.getElementById('dd-' + t);
+      if (el) el.classList.toggle('active', t === theme);
+    });
+    // Trigger existing setTheme function
+    setTheme(theme);
+  }
+
+  // Close dropdown when tapping outside
+  document.addEventListener('click', function(e) {
+    const dd = document.getElementById('brand-dropdown');
+    const btn = document.getElementById('nav-brand-btn');
+    if (dd && btn && !dd.contains(e.target) && !btn.contains(e.target)) {
+      dd.classList.remove('open');
+    }
+  });
+
+  // Keep dropdown active state in sync with desktop switcher
+  const origSetTheme = window.setTheme;
+
   // Scale phone to fit viewport on desktop
   function scalePhone() {
     if (window.innerWidth < 768) return;
