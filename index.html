@@ -65,6 +65,15 @@
     padding: 20px 0 40px;
   }
 
+  /* Phone scale-to-fit on desktop */
+  @media (min-width: 768px) {
+    .phone-shell {
+      transform-origin: top center;
+      transform: scale(var(--phone-scale, 1));
+      margin-bottom: calc((852px * (var(--phone-scale, 1) - 1)));
+    }
+  }
+
   /* Theme switcher */
   .theme-switcher {
     display: flex;
@@ -1466,6 +1475,27 @@ scrollContent.addEventListener('scroll', function() {
     topNav.classList.remove('scrolled');
   }
 });
+</script>
+
+<script>
+  // Scale phone to fit viewport on desktop
+  function scalePhone() {
+    if (window.innerWidth < 768) return;
+    const phone = document.querySelector('.phone-shell');
+    if (!phone) return;
+    const switcher = document.querySelector('.theme-switcher');
+    const title = document.querySelector('.prototype-title');
+    const switcherH = switcher ? switcher.offsetHeight + 16 : 0;
+    const titleH = title ? title.offsetHeight + 8 : 0;
+    const reservedH = switcherH + titleH + 60; // padding
+    const availableH = window.innerHeight - reservedH;
+    const phoneH = 852;
+    const scale = Math.min(1, availableH / phoneH);
+    phone.style.setProperty('--phone-scale', scale);
+    document.documentElement.style.setProperty('--phone-scale', scale);
+  }
+  window.addEventListener('load', scalePhone);
+  window.addEventListener('resize', scalePhone);
 </script>
 </body>
 </html>
