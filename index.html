@@ -1396,11 +1396,11 @@
           <div class="nora-sample-prompts">
             <div class="nora-prompt-pill" onclick="openNora()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>
-              <span id="prompt1">"Show me weekend cruises"</span>
+              <span id="prompt1">"Tell me about Free at Sea"</span>
             </div>
             <div class="nora-prompt-pill" onclick="openNora()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
-              <span id="prompt2">"I want to explore. Show me inspiration"</span>
+              <span id="prompt2">"Show me weekend cruises"</span>
             </div>
             <div class="nora-prompt-pill" onclick="openNora()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -1538,10 +1538,9 @@
       </div>
       <div class="nora-sugg-title">Suggested Topics</div>
       <div class="nora-suggestions">
-        <div class="nora-sugg" id="sugg1">Show me weekend cruises</div>
-        <div class="nora-sugg" id="sugg2">I want to explore. Show me inspiration</div>
+        <div class="nora-sugg" id="sugg1">Tell me about Free at Sea</div>
+        <div class="nora-sugg" id="sugg2">Show me weekend cruises</div>
         <div class="nora-sugg" id="sugg3">Can you help me with my booking?</div>
-        <div class="nora-sugg" id="sugg4">Adventure cruise</div>
       </div>
       <div class="nora-input-row">
         <input type="text" class="nora-input" id="nora-input" placeholder="Enter your message here" />
@@ -1581,7 +1580,7 @@ const themes = {
     noraExpSub: 'Your AI cruise planner · Online',
     noraChatBubble: "Hi! I'm Nora, your personal cruise planner. Tell me what kind of vacation you're dreaming about and I'll find the perfect voyage for you. 🌊",
     noraInputPlaceholder: 'Where do you want to sail?',
-    sugg1: 'Family friendly', sugg2: 'Romantic getaway', sugg3: 'Best value', sugg4: 'Adventure cruise',
+    sugg1: 'Tell me about Free at Sea', sugg2: 'Show me weekend cruises', sugg3: 'Can you help me with my booking?', sugg4: '',
     ready: true,
   },
   oceania: {
@@ -1689,7 +1688,7 @@ function setTheme(theme) {
     document.getElementById('sugg1').textContent = t.sugg1;
     document.getElementById('sugg2').textContent = t.sugg2;
     document.getElementById('sugg3').textContent = t.sugg3;
-    document.getElementById('sugg4').textContent = t.sugg4;
+    if (document.getElementById('sugg4')) document.getElementById('sugg4').textContent = t.sugg4;
     document.getElementById('promo-title').textContent = t.promoTitle;
     document.getElementById('promo-sub').textContent = t.promoSub;
     document.getElementById('fleet-title').textContent = t.fleetTitle;
