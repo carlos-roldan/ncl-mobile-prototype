@@ -1657,8 +1657,24 @@ const themes = {
   }
 };
 
+function applyNoraGradient(theme) {
+  const pairs = [['nora-avatar-small',''],['nora-exp-avatar','Exp']];
+  pairs.forEach(([id, suffix]) => {
+    const circle = document.querySelector('#' + id + ' circle');
+    if (!circle) return;
+    if (theme === 'oceania') {
+      circle.setAttribute('fill', 'url(#noraGradOceania' + suffix + ')');
+    } else if (theme === 'regent') {
+      circle.setAttribute('fill', 'url(#noraGradRegent' + suffix + ')');
+    } else {
+      circle.setAttribute('fill', suffix === '' ? 'url(#noraGrad)' : 'url(#noraGradExp)');
+    }
+  });
+}
+
 function setTheme(theme) {
   document.body.setAttribute('data-theme', theme);
+  applyNoraGradient(theme);
 
   // Update buttons
   document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -1793,23 +1809,6 @@ window.addEventListener('scroll', function() {
     });
     // Trigger existing setTheme function
     setTheme(theme);
-    // Swap Nora icon gradient to match brand
-    applyNoraGradient(theme);
-  }
-
-  function applyNoraGradient(theme) {
-    const pairs = [['nora-avatar-small',''],['nora-exp-avatar','Exp']];
-    pairs.forEach(([id, suffix]) => {
-      const circle = document.querySelector('#' + id + ' circle');
-      if (!circle) return;
-      if (theme === 'oceania') {
-        circle.setAttribute('fill', 'url(#noraGradOceania' + suffix + ')');
-      } else if (theme === 'regent') {
-        circle.setAttribute('fill', 'url(#noraGradRegent' + suffix + ')');
-      } else {
-        circle.setAttribute('fill', suffix === '' ? 'url(#noraGrad)' : 'url(#noraGradExp)');
-      }
-    });
   }
 
   // Close dropdown when tapping outside
