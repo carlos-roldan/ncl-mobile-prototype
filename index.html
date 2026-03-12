@@ -1157,11 +1157,11 @@
   body[data-theme="oceania"] .nora-footer { background: rgba(61,35,20,0.97); }
   body[data-theme="oceania"] .nora-footer-inner { background: rgba(250,246,240,0.06); }
   body[data-theme="oceania"] .nora-placeholder { color: rgba(250,246,240,0.85); }
-  body[data-theme="oceania"] .nora-avatar { background: #C4973A; color: #1A0F0A; font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  body[data-theme="oceania"] .nora-avatar { background: transparent; color: #1A0F0A; font-family: 'Cormorant Garamond', serif; font-style: italic; }
   body[data-theme="oceania"] .nora-action-btn { background: rgba(250,246,240,0.08); }
   body[data-theme="oceania"] .nora-action-btn svg { stroke: rgba(250,246,240,0.7); }
   body[data-theme="oceania"] .nora-expanded { background: #3D2314; }
-  body[data-theme="oceania"] .nora-exp-avatar { background: #C4973A; color: #1A0F0A; }
+  body[data-theme="oceania"] .nora-exp-avatar { background: transparent; color: #1A0F0A; }
   body[data-theme="oceania"] .nora-exp-title { color: #FAF6F0; font-family: 'Cormorant Garamond', serif; }
   body[data-theme="oceania"] .nora-exp-subtitle { color: rgba(250,246,240,0.5); }
   body[data-theme="oceania"] .nora-chat-bubble { background: rgba(250,246,240,0.1); color: rgba(250,246,240,0.9); }
@@ -1199,11 +1199,11 @@
   body[data-theme="regent"] .nora-footer { background: rgba(10,10,10,0.97); }
   body[data-theme="regent"] .nora-footer-inner { background: rgba(255,255,255,0.06); }
   body[data-theme="regent"] .nora-placeholder { color: rgba(255,255,255,0.85); }
-  body[data-theme="regent"] .nora-avatar { background: #C9A84C; color: #0A0A0A; font-family: 'Anton', sans-serif; }
+  body[data-theme="regent"] .nora-avatar { background: transparent; color: #0A0A0A; font-family: 'Anton', sans-serif; }
   body[data-theme="regent"] .nora-action-btn { background: rgba(255,255,255,0.08); }
   body[data-theme="regent"] .nora-action-btn svg { stroke: rgba(255,255,255,0.7); }
   body[data-theme="regent"] .nora-expanded { background: #0A0A0A; }
-  body[data-theme="regent"] .nora-exp-avatar { background: #C9A84C; color: #0A0A0A; }
+  body[data-theme="regent"] .nora-exp-avatar { background: transparent; color: #0A0A0A; }
   body[data-theme="regent"] .nora-exp-title { color: white; font-family: 'Anton', sans-serif; text-transform: uppercase; letter-spacing: 0.04em; }
   body[data-theme="regent"] .nora-exp-subtitle { color: rgba(255,255,255,0.4); }
   body[data-theme="regent"] .nora-chat-bubble { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
@@ -1483,6 +1483,14 @@
                 <stop offset="70%"  stop-color="#C8B560"/>
                 <stop offset="100%" stop-color="#E6CD88"/>
               </linearGradient>
+              <linearGradient id="noraGradOceania" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#3D2314"/>
+                <stop offset="100%" stop-color="#C4973A"/>
+              </linearGradient>
+              <linearGradient id="noraGradRegent" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#0A0A0A"/>
+                <stop offset="100%" stop-color="#C9A84C"/>
+              </linearGradient>
             </defs>
             <circle cx="44" cy="44" r="44" fill="url(#noraGrad)"/>
             <path d="M30 26 L33.5 38.5 L46 42 L33.5 45.5 L30 58 L26.5 45.5 L14 42 L26.5 38.5 Z" fill="white"/>
@@ -1521,6 +1529,14 @@
                 <stop offset="40%"  stop-color="#68ACAA"/>
                 <stop offset="70%"  stop-color="#C8B560"/>
                 <stop offset="100%" stop-color="#E6CD88"/>
+              </linearGradient>
+              <linearGradient id="noraGradOceaniaExp" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#3D2314"/>
+                <stop offset="100%" stop-color="#C4973A"/>
+              </linearGradient>
+              <linearGradient id="noraGradRegentExp" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#0A0A0A"/>
+                <stop offset="100%" stop-color="#C9A84C"/>
               </linearGradient>
             </defs>
             <circle cx="44" cy="44" r="44" fill="url(#noraGradExp)"/>
@@ -1777,6 +1793,23 @@ window.addEventListener('scroll', function() {
     });
     // Trigger existing setTheme function
     setTheme(theme);
+    // Swap Nora icon gradient to match brand
+    applyNoraGradient(theme);
+  }
+
+  function applyNoraGradient(theme) {
+    const pairs = [['nora-avatar-small',''],['nora-exp-avatar','Exp']];
+    pairs.forEach(([id, suffix]) => {
+      const circle = document.querySelector('#' + id + ' circle');
+      if (!circle) return;
+      if (theme === 'oceania') {
+        circle.setAttribute('fill', 'url(#noraGradOceania' + suffix + ')');
+      } else if (theme === 'regent') {
+        circle.setAttribute('fill', 'url(#noraGradRegent' + suffix + ')');
+      } else {
+        circle.setAttribute('fill', suffix === '' ? 'url(#noraGrad)' : 'url(#noraGradExp)');
+      }
+    });
   }
 
   // Close dropdown when tapping outside
